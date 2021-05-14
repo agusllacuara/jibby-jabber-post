@@ -30,6 +30,7 @@ public class Posts {
     @ElementCollection
     private List<String>  reposts;
 
+    @Column(columnDefinition = "TEXT")
     public String media;
 
     @NotNull
