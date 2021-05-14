@@ -2,9 +2,7 @@ package com.example.post.controller;
 
 import com.example.post.model.Posts;
 import com.example.post.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,13 @@ public class PostController {
     @GetMapping("/getAll")
     public List<Posts> getAllPosts() {
         return postService.getAllPosts();
+    }
+
+    @GetMapping("/getAll/{user}")
+    public List<Posts> getAllPostsByUserId (@PathVariable String user){return postService.getAllPostsForUserId(user);}
+
+    @GetMapping("/create")
+    public Posts getAllPosts(@RequestBody Posts post) {
+        return postService.createPost(post);
     }
 }
