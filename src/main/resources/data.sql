@@ -1,0 +1,1 @@
+INSERT INTO posts(id, text, date, user_id) VALUES (1, "first post", 1, 1);
