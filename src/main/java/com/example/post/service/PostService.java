@@ -1,11 +1,10 @@
 package com.example.post.service;
 
-import com.example.post.model.PageablePostDto;
+import com.example.post.model.HomePosts;
 import com.example.post.model.PostList;
 import com.example.post.model.Posts;
 import com.example.post.repository.PostRepository;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,9 +28,9 @@ public class PostService {
     }
 
 
-    public PostList findByUserIds(PageablePostDto pageablePostDto) {
-        Pageable pageable =  PageRequest.of(pageablePostDto.getPageNumber(), 50);
-        return new PostList(postRepository.findByUserIds(pageablePostDto.getUserIds(), pageable).toList());
+    public PostList findByUserIds(HomePosts homePosts) {
+//        Pageable pageable =  PageRequest.of(pageablePostDto.getPageNumber(), 50);
+        return new PostList(postRepository.findByUserIds(homePosts.getUserIds()));
     }
 
     public PostList getAllWithPagination(int pageNumber) {

@@ -1,7 +1,7 @@
 package com.example.post.controller;
 
 import com.example.post.mapper.PostMapper;
-import com.example.post.model.PageablePostDto;
+import com.example.post.model.HomePosts;
 import com.example.post.model.PostDto;
 import com.example.post.model.PostList;
 import com.example.post.model.Posts;
@@ -31,8 +31,8 @@ public class PostController {
     public PostList getAllPostsByUserId (@PathVariable long userId){return postService.getAllPostsForUserId(userId);}
 
     @PostMapping("/getHomePosts")
-    public PostList getAllHomeTweets (@RequestBody PageablePostDto pageablePostDto) {
-        return postService.findByUserIds(pageablePostDto);}
+    public PostList getAllHomeTweets (@RequestBody HomePosts homePosts) {
+        return postService.findByUserIds(homePosts);}
 
     @PostMapping("/create")
     public Posts createPost(@RequestBody PostDto postDto) {
