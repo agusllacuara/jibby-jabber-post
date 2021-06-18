@@ -1,6 +1,13 @@
-FROM gradle:5.6.0-jdk8
-COPY . /home/gradle/src
+FROM gradle:7.0-jdk11 AS build
+
+COPY . /home/gradle/src/
 WORKDIR /home/gradle/src
-RUN gradle build
+RUN gradle assemble
+
+FROM openjdk:11-jre-slim
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/gradle/src/build/libs/rest-service-0.0.1-SNAPSHOT.jar"]
+RUN mkdir /app
+
+COPY --from=build /home/gradle/src/build/libs/jibber-jabber-users.jar /app/spring-boot-application.jar
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=production", "/app/spring-boot-application.jar"]
