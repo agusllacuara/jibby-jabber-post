@@ -1,5 +1,9 @@
 package com.example.post.controller;
 
+import com.example.post.mapper.PostMapper;
+import com.example.post.model.PageablePostDto;
+import com.example.post.model.PostDto;
+import com.example.post.model.PostList;
 import com.example.post.model.Posts;
 import com.example.post.service.PostService;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +15,11 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final PostMapper postMapper;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, PostMapper postMapper) {
         this.postService = postService;
+        this.postMapper = postMapper;
     }
 
     @GetMapping("/getAll")
@@ -21,11 +27,26 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/getAll/{user}")
-    public List<Posts> getAllPostsByUserId (@PathVariable String user){return postService.getAllPostsForUserId(user);}
+    @GetMapping("/getAll/{userId}")
+    public PostList getAllPostsByUserId (@PathVariable long userId){return postService.getAllPostsForUserId(userId);}
 
-    @GetMapping("/create")
-    public Posts getAllPosts(@RequestBody Posts post) {
+    @PostMapping("/getHomePosts")
+    public PostList getAllHomeTweets (@RequestBody PageablePostDto pageablePostDto) {
+        return postService.findByUserIds(pageablePostDto);}
+
+    @PostMapping("/create")
+    public Posts createPost(@RequestBody PostDto postDto) {
+        Posts post = postMapper.postDtoToPost(postDto);
         return postService.createPost(post);
+    }
+
+    @PostMapping("/{id}/like")
+    public Integer createPost(@PathVariable Long id, @RequestBody Long userId ) throws Exception {
+        return postService.likePost(id, userId);
+    }
+
+    @DeleteMapping("{id}")
+    public long deletePost(@PathVariable long id) {
+        return postService.deletePost(id);
     }
 }

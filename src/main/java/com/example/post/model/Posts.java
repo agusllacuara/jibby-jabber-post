@@ -20,15 +20,15 @@ public class Posts {
     private Timestamp date;
 
     @NotNull
-    private String userInfo;
+    private Long userId;
 
     @NotNull
     @ElementCollection
-    private List<String> likes;
+    private List<Long> likes;
 
     @NotNull
     @ElementCollection
-    private List<String>  reposts;
+    private List<Long>  reposts;
 
     @Column(columnDefinition = "TEXT")
     public String media;
@@ -53,8 +53,8 @@ public class Posts {
         return date;
     }
 
-    public String getUserInfo() {
-        return userInfo;
+    public long getUserId() {
+        return userId;
     }
 
     public void setId(Long id) {
@@ -69,15 +69,15 @@ public class Posts {
         this.date = date;
     }
 
-    public void setUserInfo(String user) {
-        this.userInfo = user;
+    public void setUserId(long user) {
+        this.userId = user;
     }
 
-    public void setLikes(List<String> likes) {
+    public void setLikes(List<Long> likes) {
         this.likes = likes;
     }
 
-    public void setReposts(List<String> reposts) {
+    public void setReposts(List<Long> reposts) {
         this.reposts = reposts;
     }
 
@@ -89,11 +89,11 @@ public class Posts {
         this.threads = threads;
     }
 
-    public List<String> getLikes() {
+    public List<Long> getLikes() {
         return likes;
     }
 
-    public List<String> getReposts() {
+    public List<Long> getReposts() {
         return reposts;
     }
 

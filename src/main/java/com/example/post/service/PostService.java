@@ -1,11 +1,15 @@
 package com.example.post.service;
 
+import com.example.post.model.PageablePostDto;
+import com.example.post.model.PostList;
 import com.example.post.model.Posts;
 import com.example.post.repository.PostRepository;
-import org.apache.catalina.User;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -20,12 +24,39 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<Posts> getAllPostsForUserId(String userInfo) {
-        return postRepository.findAllByUserInfo(userInfo);
+    public PostList getAllPostsForUserId(long userId) {
+        return new PostList(postRepository.findAllByUserId(userId));
     }
 
 
+    public PostList findByUserIds(PageablePostDto pageablePostDto) {
+        Pageable pageable =  PageRequest.of(pageablePostDto.getPageNumber(), 50);
+        return new PostList(postRepository.findByUserIds(pageablePostDto.getUserIds(), pageable).toList());
+    }
+
+    public PostList getAllWithPagination(int pageNumber) {
+        return new PostList(postRepository.findAll(PageRequest.of(pageNumber, 50)).toList());
+    }
+
     public Posts createPost(Posts post) {
         return postRepository.save(post);
+    }
+
+    public long deletePost(long id) {
+        postRepository.deleteById(id);
+        return id;
+    }
+
+    public Integer likePost(Long id, Long userId) throws Exception {
+        Optional<Posts> optionalPost = postRepository.findById(id);
+        if (optionalPost.isPresent()) {
+            Posts post = optionalPost.get();
+            List<Long> likes = post.getLikes();
+            if(likes.contains(userId)) likes.remove(userId);
+            else likes.add(userId);
+            post.setLikes(likes);
+            postRepository.save(post);
+            return likes.size();
+        } throw new Exception("Post not found");
     }
 }
