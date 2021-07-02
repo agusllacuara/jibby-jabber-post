@@ -4,8 +4,6 @@ import com.example.post.model.PostDto;
 import com.example.post.model.Posts;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Component
 public class PostMapper {
 
