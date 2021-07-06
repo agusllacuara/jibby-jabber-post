@@ -6,7 +6,7 @@ RUN gradle build
 
 FROM openjdk:11-jre-slim
 
-EXPOSE 8080
+EXPOSE 8083
 RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/jibby-jabber-post-latest.jar /app/spring-boot-application.jar
