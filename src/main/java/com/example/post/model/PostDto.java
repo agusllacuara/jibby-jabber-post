@@ -1,7 +1,6 @@
 package com.example.post.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostDto {
